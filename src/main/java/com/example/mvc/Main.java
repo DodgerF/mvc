@@ -13,7 +13,6 @@ import java.io.IOException;
 
 public class Main extends Application {
     private IEventBus eventBus;
-    private IListener view;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -21,6 +20,7 @@ public class Main extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 800, 600);
         stage.setTitle("Hello!");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
 
         Table table = new Table();
@@ -33,7 +33,6 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) {
-        ServiceLocator.INSTANCE.registerService(IListener.class, View.class);
         ServiceLocator.INSTANCE.registerService(IEventBus.class, EventBusProvider.class);
 
         launch();

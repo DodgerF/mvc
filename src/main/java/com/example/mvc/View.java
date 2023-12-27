@@ -9,7 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 
-public class View implements IListener {
+public class View {
     @FXML
     private TextField widthText;
     @FXML
@@ -29,9 +29,9 @@ public class View implements IListener {
     }
 
     public void init(Table table, HeightController h, WidthController w, RotateController r){
-        tableImage.setScaleY(table.getHeight());
-        tableImage.setScaleX(table.getWidth());
-        tableImage.setRotate(table.getRotate());
+        widthText.setText(table.getWidth().toString());
+        heightText.setText(table.getHeight().toString());
+        rotateText.setText(table.getRotate().toString());
 
         widthText.setOnAction(event -> {
             if (!w.checkValue(widthText.getText())){
@@ -50,9 +50,9 @@ public class View implements IListener {
             }
         });
 
-        widthText.setText(table.getWidth().toString());
-        heightText.setText(table.getHeight().toString());
-        rotateText.setText(table.getRotate().toString());
+        tableImage.setScaleY(table.getHeight());
+        tableImage.setScaleX(table.getWidth());
+        tableImage.setRotate(table.getRotate());
     }
 
     private void onHeightChanged(Event event) {
