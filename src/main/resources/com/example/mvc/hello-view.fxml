@@ -42,6 +42,16 @@
                   <TextField fx:id="heightText" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="106.0" />
                </children>
             </HBox>
+            <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="310.0" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Поворот: ">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="rotateText" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="106.0" />
+               </children>
+            </HBox>
          </children>
       </VBox>
    </children>

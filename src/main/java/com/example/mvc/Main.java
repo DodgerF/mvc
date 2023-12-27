@@ -1,6 +1,7 @@
 package com.example.mvc;
 
 import controllers.HeightController;
+import controllers.RotateController;
 import controllers.WidthController;
 import event.*;
 import javafx.application.Application;
@@ -26,8 +27,9 @@ public class Main extends Application {
 
         var h = new HeightController(table);
         var w = new WidthController(table);
+        var r = new RotateController(table);
 
-        ((View)fxmlLoader.getController()).init(table, h, w);
+        ((View)fxmlLoader.getController()).init(table, h, w, r);
     }
 
     public static void main(String[] args) {

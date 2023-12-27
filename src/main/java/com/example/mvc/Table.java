@@ -7,9 +7,11 @@ import event.ServiceLocator;
 public class Table {
     private Double height;
     private Double width;
+    private Double rotate;
     public Table() {
         height = 1.0;
         width = 1.0;
+        rotate = 0.0;
     }
 
     public Double getHeight() {
@@ -17,6 +19,9 @@ public class Table {
     }
     public Double getWidth() {
         return width;
+    }
+    public Double getRotate() {
+        return rotate;
     }
     public void setHeight(double h) {
         height = h;
@@ -29,5 +34,12 @@ public class Table {
 
         var eventBus = ServiceLocator.INSTANCE.getService(IEventBus.class);
         eventBus.fireEvent(new FieldHasBeenChangedEvent(FieldHasBeenChangedEvent.WIDTH_CHANGED, width));
+    }
+
+    public void setRotate(double r) {
+        rotate = r;
+
+        var eventBus = ServiceLocator.INSTANCE.getService(IEventBus.class);
+        eventBus.fireEvent(new FieldHasBeenChangedEvent(FieldHasBeenChangedEvent.ROTATE_CHANGED, rotate));
     }
 }

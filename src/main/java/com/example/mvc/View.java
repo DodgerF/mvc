@@ -1,6 +1,7 @@
 package com.example.mvc;
 
 import controllers.HeightController;
+import controllers.RotateController;
 import controllers.WidthController;
 import event.*;
 import javafx.event.Event;
@@ -14,27 +15,23 @@ public class View implements IListener {
     @FXML
     private TextField heightText;
     @FXML
+    private TextField rotateText;
+    @FXML
     private ImageView tableImage;
 
-
-    public TextField getWidthText() {
-        return widthText;
-    }
-
-    public TextField getHeightText() {
-        return heightText;
-    }
 
     public View() {
         IEventBus eventBus = ServiceLocator.INSTANCE.getService(IEventBus.class);
 
-        eventBus.subscribe(FieldHasBeenChangedEvent.HEIGHT_CHANGED, this::onChangedHeight);
-        eventBus.subscribe(FieldHasBeenChangedEvent.WIDTH_CHANGED, this::onChangedWidth);
+        eventBus.subscribe(FieldHasBeenChangedEvent.HEIGHT_CHANGED, this::onHeightChanged);
+        eventBus.subscribe(FieldHasBeenChangedEvent.WIDTH_CHANGED, this::onWidthChanged);
+        eventBus.subscribe(FieldHasBeenChangedEvent.ROTATE_CHANGED, this::onRotateChanged);
     }
 
-    public void init(Table table, HeightController h, WidthController w){
+    public void init(Table table, HeightController h, WidthController w, RotateController r){
         tableImage.setScaleY(table.getHeight());
         tableImage.setScaleX(table.getWidth());
+        tableImage.setRotate(table.getRotate());
 
         widthText.setOnAction(event -> {
             if (!w.checkValue(widthText.getText())){
@@ -47,16 +44,25 @@ public class View implements IListener {
                 heightText.setText(table.getHeight().toString());
             }
         });
+        rotateText.setOnAction(event -> {
+            if (!r.checkValue(rotateText.getText())) {
+                rotateText.setText(table.getRotate().toString());
+            }
+        });
 
         widthText.setText(table.getWidth().toString());
         heightText.setText(table.getHeight().toString());
+        rotateText.setText(table.getRotate().toString());
     }
 
-    private void onChangedHeight(Event event) {
+    private void onHeightChanged(Event event) {
         tableImage.setScaleY(((FieldHasBeenChangedEvent) event).getValue());
     }
-    private void onChangedWidth(Event event) {
+    private void onWidthChanged(Event event) {
         tableImage.setScaleX(((FieldHasBeenChangedEvent) event).getValue());
+    }
+    private void onRotateChanged(Event event) {
+        tableImage.setRotate(((FieldHasBeenChangedEvent)event).getValue());
     }
 
 }

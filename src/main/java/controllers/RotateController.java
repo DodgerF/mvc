@@ -2,20 +2,20 @@ package controllers;
 
 import com.example.mvc.Table;
 
-public class HeightController{
+public class RotateController {
     private final Table table;
-    public HeightController(Table table) {
+    public RotateController(Table table) {
         this.table = table;
     }
 
     public boolean checkValue(String s) {
         try {
             double value = Double.parseDouble(s);
-            if (value < 0) {
+            if (value > Math.abs(360)) {
                 return false;
             }
             else {
-                table.setHeight(value);
+                table.setRotate(value);
                 return true;
             }
         }
