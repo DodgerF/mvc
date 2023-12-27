@@ -1,14 +1,26 @@
 package controllers;
 
 import com.example.mvc.Table;
-import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
 
 public class HeightController {
-    @FXML
-    private TextField field;
-    public HeightController(TextField f, Table table) {
-        field = f;
+    private final Table table;
+    public HeightController(Table table) {
+        this.table = table;
     }
 
+    public boolean checkValue(String s) {
+        try {
+            double value = Double.parseDouble(s);
+            if (value < 0) {
+                return false;
+            }
+            else {
+                table.setHeight(value);
+                return true;
+            }
+        }
+        catch (Exception ignored) {
+            return false;
+        }
+    }
 }

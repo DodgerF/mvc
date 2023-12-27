@@ -1,21 +1,33 @@
 package com.example.mvc;
 
-public class Table {
-    private double height;
-    private double width;
+import event.FieldHasBeenChangedEvent;
+import event.IEventBus;
+import event.ServiceLocator;
 
-    public double getHeight() {
+public class Table {
+    private Double height;
+    private Double width;
+    public Table() {
+        height = 1.0;
+        width = 1.0;
+    }
+
+    public Double getHeight() {
         return height;
     }
-    public double getWidth() {
+    public Double getWidth() {
         return width;
     }
     public void setHeight(double h) {
-        if (h < 0) return;
         height = h;
+
+        var eventBus = ServiceLocator.INSTANCE.getService(IEventBus.class);
+        eventBus.fireEvent(new FieldHasBeenChangedEvent(FieldHasBeenChangedEvent.HEIGHT_CHANGED, height));
     }
     public void setWidth(double w) {
-        if (w < 0) return;
         width = w;
+
+        var eventBus = ServiceLocator.INSTANCE.getService(IEventBus.class);
+        eventBus.fireEvent(new FieldHasBeenChangedEvent(FieldHasBeenChangedEvent.WIDTH_CHANGED, width));
     }
 }

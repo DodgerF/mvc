@@ -1,5 +1,7 @@
 package com.example.mvc;
 
+import controllers.HeightController;
+import controllers.WidthController;
 import event.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,28 +12,26 @@ import java.io.IOException;
 
 public class Main extends Application {
     private IEventBus eventBus;
-    private IListener listener;
+    private IListener view;
 
     @Override
     public void start(Stage stage) throws IOException {
-        listener = ServiceLocator.INSTANCE.getService(IListener.class);
-        eventBus = ServiceLocator.INSTANCE.getService(IEventBus.class);
-
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-        scene.setOnMouseClicked(event -> {
-            eventBus.fireEvent(new MyEvent(MyEvent.FIELD_CHANGED, "x: " + event.getX()));
-            eventBus.fireEvent(new MyEvent(MyEvent.TEST, "y: " + event.getY()));
-        });
+        Scene scene = new Scene(fxmlLoader.load(), 800, 600);
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
-        //Table table = new Table();
 
+        Table table = new Table();
+
+        var h = new HeightController(table);
+        var w = new WidthController(table);
+
+        ((View)fxmlLoader.getController()).init(table, h, w);
     }
 
     public static void main(String[] args) {
-        ServiceLocator.INSTANCE.registerService(IListener.class, Listener.class);
+        ServiceLocator.INSTANCE.registerService(IListener.class, View.class);
         ServiceLocator.INSTANCE.registerService(IEventBus.class, EventBusProvider.class);
 
         launch();
