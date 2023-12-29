@@ -7,10 +7,12 @@ import event.ServiceLocator;
 public class Table {
     private Double height;
     private Double width;
+    private Double length;
     private Double rotate;
     public Table() {
-        height = 1.0;
-        width = 1.0;
+        height = 90.0;
+        width = 120.0;
+        length = 80.0;
         rotate = 0.0;
     }
 
