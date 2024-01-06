@@ -124,6 +124,10 @@ public class View {
             setImageToCenter();
         });
     }
+    private void setImageToCenter() {
+        img.setX(centreX - img.getFitWidth()/2);
+        img.setY(centreY - img.getFitHeight()/2);
+    }
 
     private void onHeightChanged(Event event) {
         if (isViewAbove) return;
@@ -139,8 +143,5 @@ public class View {
         if (!isViewAbove) return;
         img.setFitHeight(((FieldHasBeenChangedEvent) event).getValue());
     }
-    private void setImageToCenter() {
-        img.setX(centreX - img.getFitWidth()/2);
-        img.setY(centreY - img.getFitHeight()/2);
-    }
+
 }
