@@ -21,8 +21,8 @@
                   <Font size="16.0" />
                </font>
             </Text>
-            <Button fx:id="zoomIn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="36.0" text="In" textAlignment="CENTER" translateX="10.0" translateY="45.0" />
-            <Button fx:id="zoomOut" mnemonicParsing="false" text="Out" textAlignment="CENTER" translateX="70.0" translateY="45.0" />
+            <Button onAction="#onZoomIn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="36.0" text="In" textAlignment="CENTER" translateX="10.0" translateY="45.0" />
+            <Button onAction="#onZoomOut" mnemonicParsing="false" text="Out" textAlignment="CENTER" translateX="70.0" translateY="45.0" />
          </children>
       </HBox>
       <ImageView fx:id="img" cache="true" fitHeight="90.0" fitWidth="120.0" layoutX="480.0" layoutY="255.0" nodeOrientation="INHERIT" pickOnBounds="true">
@@ -78,7 +78,7 @@
                   <TextField fx:id="tableRotate" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="106.0" />
                </children>
             </HBox>
-            <Button mnemonicParsing="false" text="Ввид сверху" textAlignment="CENTER" translateY="20.0">
+            <Button onAction="#onClick" mnemonicParsing="false" text="Ввид сверху" textAlignment="CENTER" translateY="20.0">
                <font>
                   <Font size="16.0" />
                </font>

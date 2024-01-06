@@ -1,6 +1,7 @@
 package com.example.mvc;
 
 import controllers.HeightController;
+import controllers.LengthController;
 import controllers.RotateController;
 import controllers.WidthController;
 import event.*;
@@ -9,6 +10,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import java.io.File;
+import java.io.FileInputStream;
 
 public class View {
     @FXML
@@ -21,7 +25,7 @@ public class View {
     private TextField tableRotate;
     @FXML
     private ImageView img;
-
+    private  Table table;
     private double centreX, centreY;
 
     private boolean isViewAbove;
@@ -31,12 +35,13 @@ public class View {
 
         eventBus.subscribe(FieldHasBeenChangedEvent.HEIGHT_CHANGED, this::onHeightChanged);
         eventBus.subscribe(FieldHasBeenChangedEvent.WIDTH_CHANGED, this::onWidthChanged);
-        //eventBus.subscribe(FieldHasBeenChangedEvent.LENGTH_CHANGED, this:);
+        eventBus.subscribe(FieldHasBeenChangedEvent.LENGTH_CHANGED, this::onLengthChanged);
         eventBus.subscribe(FieldHasBeenChangedEvent.ROTATE_CHANGED, this::onRotateChanged);
     }
 
     public void onZoomIn() {
         var scale = img.getScaleX() + 0.1;
+
         img.setScaleX(scale);
         img.setScaleY(scale);
     }
@@ -49,32 +54,40 @@ public class View {
 
     public void onClick() {
         if (isViewAbove) {
-            img.setImage(new Image("C:\\mvc\\src\\main\\resources\\images\\table.png"));
+            img.setImage(findImageByName("table.png"));
         }
         else {
-            img.setImage(new Image("C:\\mvc\\src\\main\\resources\\images\\table_top.png"));
+            img.setImage(findImageByName("table_top.png"));
         }
+        isViewAbove = !isViewAbove;
 
-
-        /*centreX = img.getX() + img.getFitWidth() / 2;
-        centreY = img.getY() + img.getFitHeight() / 2;
-
-        img.fitWidthProperty().addListener((observable, oldValue, newValue) -> {
-            setImageToCenter();
-        });
-
-        img.fitHeightProperty().addListener((observable, oldValue, newValue) -> {
-            setImageToCenter();
-        });
-
-        img.setFitHeight(table.getHeight());
+        if (isViewAbove)
+            img.setFitHeight(table.getLength());
+        else
+            img.setFitHeight(table.getHeight());
         img.setFitWidth(table.getWidth());
         img.setRotate(table.getRotate());
-        isViewAbove = !isViewAbove;*/
     }
-    public void init(Table table, HeightController h, WidthController w, RotateController r){
+
+    private static String createPathToImage(String imgName){
+        return String.format("%s\\src\\main\\resources\\images\\%s", new File("").getAbsolutePath(), imgName);
+    }
+    private static Image findImageByName(String imgName)
+    {
+        try
+        {
+            return new Image(new FileInputStream(createPathToImage(imgName)));
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+    }
+    public void init(Table table, HeightController h, WidthController w, LengthController l, RotateController r){
+        this.table = table;
         tableWidth.setText(table.getWidth().toString());
         tableHeight.setText(table.getHeight().toString());
+        tableLength.setText(table.getLength().toString());
         tableRotate.setText(table.getRotate().toString());
 
         tableWidth.setOnAction(event -> {
@@ -88,15 +101,32 @@ public class View {
                 tableHeight.setText(table.getHeight().toString());
             }
         });
+
+        tableLength.setOnAction(event -> {
+            if (!l.checkValue(tableLength.getText())){
+                tableLength.setText(table.getLength().toString());
+            }
+        });
+
         tableRotate.setOnAction(event -> {
             if (!r.checkValue(tableRotate.getText())) {
                 tableRotate.setText(table.getRotate().toString());
             }
         });
+        centreX = img.getX() + img.getFitWidth() / 2;
+        centreY = img.getY() + img.getFitHeight() / 2;
 
+        img.fitWidthProperty().addListener((observable, oldValue, newValue) -> {
+            setImageToCenter();
+        });
+
+        img.fitHeightProperty().addListener((observable, oldValue, newValue) -> {
+            setImageToCenter();
+        });
     }
 
     private void onHeightChanged(Event event) {
+        if (isViewAbove) return;
         img.setFitHeight(((FieldHasBeenChangedEvent) event).getValue());
     }
     private void onWidthChanged(Event event) {
@@ -105,7 +135,10 @@ public class View {
     private void onRotateChanged(Event event) {
         img.setRotate(((FieldHasBeenChangedEvent)event).getValue());
     }
-
+    private void onLengthChanged(Event event) {
+        if (!isViewAbove) return;
+        img.setFitHeight(((FieldHasBeenChangedEvent) event).getValue());
+    }
     private void setImageToCenter() {
         img.setX(centreX - img.getFitWidth()/2);
         img.setY(centreY - img.getFitHeight()/2);

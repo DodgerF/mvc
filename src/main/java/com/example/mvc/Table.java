@@ -25,6 +25,9 @@ public class Table {
     public Double getRotate() {
         return rotate;
     }
+    public Double getLength() {
+        return length;
+    }
     public void setHeight(double h) {
         height = h;
 
@@ -37,6 +40,12 @@ public class Table {
         var eventBus = ServiceLocator.INSTANCE.getService(IEventBus.class);
         eventBus.fireEvent(new FieldHasBeenChangedEvent(FieldHasBeenChangedEvent.WIDTH_CHANGED, width));
     }
+    public void setLength(double l) {
+        length = l;
+
+        var eventBus = ServiceLocator.INSTANCE.getService(IEventBus.class);
+        eventBus.fireEvent(new FieldHasBeenChangedEvent(FieldHasBeenChangedEvent.LENGTH_CHANGED, length));
+    }
 
     public void setRotate(double r) {
         rotate = r;
@@ -44,4 +53,6 @@ public class Table {
         var eventBus = ServiceLocator.INSTANCE.getService(IEventBus.class);
         eventBus.fireEvent(new FieldHasBeenChangedEvent(FieldHasBeenChangedEvent.ROTATE_CHANGED, rotate));
     }
+
+
 }
